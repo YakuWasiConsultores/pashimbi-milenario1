@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Arqueología Interactivo</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar for information and gallery -->
+        <aside class="sidebar glass-panel">
+            <header class="sidebar-header">
+                <div class="logo-container">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="currentColor"/>
+                    </svg>
+                    <h1>Visor Arqueológico</h1>
+                </div>
+                <p class="subtitle">Exploración de Sectores y Trincheras</p>
+            </header>
+            
+            <div class="sidebar-content">
+                <div class="search-container">
+                    <input type="text" id="search-rasgo" placeholder="🔎 Buscar por número de Rasgo (ej. 85)..." class="search-input">
+                    <button id="search-btn" class="glass-btn btn-sm">Buscar</button>
+                    <button id="clear-search-btn" class="glass-btn btn-sm hidden" title="Limpiar búsqueda">✕</button>
+                </div>
+                
+                <div id="selection-prompt" class="empty-state">
+                    <div class="empty-icon">📍</div>
+                    <p>Selecciona un polígono en el mapa para ver los detalles y las fotografías asociadas al sector y trinchera.</p>
+                </div>
+
+                <div id="details-panel" class="details-panel hidden">
+                    <div class="detail-card">
+                        <h2 id="detail-sector-title">Sector X</h2>
+                        <div class="tags">
+                            <span class="tag" id="tag-trinchera">Trinchera: N/A</span>
+                            <span class="tag" id="tag-unidad">Unidad: N/A</span>
+                            <span class="tag" id="tag-ext">Ext: N/A</span>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-section">
+                        <h3>Registro Fotográfico</h3>
+                        <p class="gallery-meta" id="gallery-count">0 fotos disponibles</p>
+                        <div id="image-gallery" class="image-gallery">
+                            <!-- Images will be dynamically injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <p>Datos Geoespaciales • <span id="layer-status">Cargando datos...</span></p>
+            </div>
+        </aside>
+
+        <!-- Main Map Area -->
+        <main class="map-container">
+            <div id="map"></div>
+            
+            <!-- Map Overlay Controls (Custom logic/buttons if needed) -->
+            <div class="map-overlay top-right">
+                <button class="glass-btn btn-icon" id="reset-view" title="Centrar Mapa">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Image Modal for Fullscreen Viewing -->
+    <div id="image-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <img id="modal-img" src="" alt="Fullscreen view">
+            <div class="modal-caption" id="modal-caption"></div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Datos (Soportan ejecución remota y offline en GitHub Pages/Local) -->
+    <script src="data_geojson.js"></script>
+    <script src="data_images.js"></script>
+
+    <!-- Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
